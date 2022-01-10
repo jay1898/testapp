@@ -3,6 +3,7 @@ import pandas as pd
 import hashlib
 #import cv2
 import numpy as np
+from PIL import Image
 def make_hashes(password):
     return hashlib.sha256(str.encode(password)).hexdigest()
 def check_hashes(password,hashed_text):
@@ -35,8 +36,9 @@ def main():
     if choice == "Home":
         original_title="<p style='text-align: center;'>In this corporate world to deal with tedious work of higher numbers of tickets and bugs it is difficult task web and saas companies to manually work on it. So to overcome it we have developed web based application which automatically separates ticket and bug with the help of different machine learning techniques.</p>"
         # st.image(np.array([cv2.imread("C:/Users/Jay/Desktop/WebApp/flow.jpg")]), channels="BGR")
-        st.markdown(original_title, unsafe_allow_html=True)
-
+        # st.markdown(original_title, unsafe_allow_html=True)
+          image = Image.open('flow.jpg')
+          st.image(image)
     elif choice == "Login":
         st.subheader("Login Section")
         Email = st.sidebar.text_input("Email")
