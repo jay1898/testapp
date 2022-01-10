@@ -38,7 +38,7 @@ def main():
         image = Image.open('flow.jpg')
         st.image(image)
         # st.image(np.array([cv2.imread("C:/Users/Jay/Desktop/WebApp/flow.jpg")]), channels="BGR")
-        # st.markdown(original_title, unsafe_allow_html=True)
+        st.markdown(original_title, unsafe_allow_html=True)
 
     elif choice == "Login":
         st.subheader("Login Section")
