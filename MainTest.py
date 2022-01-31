@@ -67,5 +67,7 @@ test_vector = vectorizer1.transform(test_data)
 sfile = bz2.BZ2File('ET11', 'r')
 model1=pickle.load(sfile)
 test_prediction = model1.predict(test_vector)
+import numpy as np
+print(np.amax(model1.predict_proba(test_vector)))
 print(test_prediction)
 

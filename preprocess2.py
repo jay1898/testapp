@@ -1,5 +1,5 @@
 
-def prepro2(df1):
+def prepro2(df1,task2):
     import string
     import nltk
     nltk.download('punkt')
@@ -55,14 +55,21 @@ def prepro2(df1):
     #df5 = remove_rare_words(df4)
     test_data = [x[0] for x in df4[['text']].to_records(index=False)]
     import pickle
-    vectorizer1=pickle.load(open('VZ1.pkl', 'rb'))
-    test_vector = vectorizer1.transform(test_data)
     import bz2
-    sfile = bz2.BZ2File('ET11', 'r')
+    if task2=="Extra Tree":
+        sfile = bz2.BZ2File('ET11', 'r')
+        vectorizer1=pickle.load(open('VZ1.pkl', 'rb'))
+    elif task2=="Decision Tree":
+        sfile = bz2.BZ2File('DT11', 'r')
+        vectorizer1=pickle.load(open('DVZ1.pkl', 'rb'))
+    else:
+        sfile = bz2.BZ2File('RT11', 'r')
+        vectorizer1=pickle.load(open('RVZ1.pkl', 'rb'))
+    test_vector = vectorizer1.transform(test_data)
     model1=pickle.load(sfile)
     test_prediction = model1.predict(test_vector)
-    df4["Label"]=test_prediction
     import numpy as np
     score=np.amax(model1.predict_proba(test_vector))
+    df4["Label"]=test_prediction
     return test_prediction,df4,score
 

@@ -6,6 +6,7 @@ from preprocess1 import prepro1
 from preprocess2 import prepro2
 #import numpy as np
 def make_hashes(password):
+    
     return hashlib.sha256(str.encode(password)).hexdigest()
 def check_hashes(password,hashed_text):
     if make_hashes(password) == hashed_text:
@@ -53,9 +54,9 @@ def main():
                 task = st.selectbox("Selection Option",["Text Query","Upload .CSV"])
                 if task == "Text Query":                    
                     ab1=st.text_input("Write Text in English")
-                    clss,score=prepro1(ab1)
+                    task2 = st.selectbox("Selection ML",["Random Forest","Decision Tree","Extra Tree"])               
+                    clss,score=prepro1(ab1,task2)
                     listToStr = ' '.join([str(elem) for elem in clss])
-                    task2 = st.selectbox("Selection ML",["Support Vector Machine","K-Nearest Neighbor","Naive Bayes","Random Forest","Decision Tree","Extra Tree"])
                     if st.button("Classify"):                        
                         st.success('The Query is '+listToStr)
                         st.success("Score is "+str(score))
@@ -64,9 +65,9 @@ def main():
                     uploaded_file = st.file_uploader("Choose a file")
                     dataframe = pd.read_csv(uploaded_file)
                     st.dataframe(dataframe, 500, 500)
-                    clss,dff,score=prepro2(dataframe)
+                    task2 = st.selectbox("Selection ML",["Random Forest","Decision Tree","Extra Tree"])
+                    clss,dff,score=prepro2(dataframe,task2)
                     listToStr = ','.join([str(elem) for elem in clss])
-                    task2 = st.selectbox("Selection ML",["Support Vector Machine","K-Nearest Neighbor","Naive Bayes","Random Forest","Decision Tree","Extra Tree"])
                     if st.button("Classify"):                        
                         st.dataframe(dff, 500, 800)
                         st.success("Score is "+str(score))
