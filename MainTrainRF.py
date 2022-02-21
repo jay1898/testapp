@@ -84,7 +84,7 @@ def essemble_classify(data,class_to_predict):
   data = shuffle(data, random_state=77)
   num_records = len(data)
   data_train = data[int(0.85 * num_records):]
-  data_test = data[int(0.85 * num_records):]
+  data_test = data[int(0.15 * num_records):]
 
   train_data = [x[0] for x in data_train[['text']].to_records(index=False)]
   train_labels = [x[0] for x in data_train[[class_to_predict]].to_records(index=False)]
@@ -93,14 +93,14 @@ def essemble_classify(data,class_to_predict):
   test_labels = [x[0] for x in data_test[[class_to_predict]].to_records(index=False)]
 
   # Create feature vectors
-  extra_params={'min_df': 0.001} 
+  extra_params={'min_df': 0.001} # 0.01 minimum difference eg happy word repetion 10 11 time it will count word with frequency & less then frequency 0.001 will not count
   vectorizer = TfidfVectorizer(**extra_params)
   # Train the feature vectors
   train_vectors = vectorizer.fit_transform(train_data)
   test_vectors = vectorizer.transform(test_data)
 
   # Perform classification with SVM, kernel=linear 
-  model = RandomForestClassifier(max_depth=2, random_state=0)
+  model = RandomForestClassifier(max_depth=2, random_state=0) # max depth means tree give two statment yes and no & random state = it will store rest work in RAM.
   print('Training the model!')
   model.fit(train_vectors, train_labels) 
   train_prediction = model.predict(train_vectors)
